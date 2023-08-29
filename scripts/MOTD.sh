@@ -69,7 +69,7 @@ executar_comando() {
 	if [ "$contexto" = 'Aplicativos' ]; then
 		comando="sudo systemctl $1"
 	elif [ "$contexto" = 'Docker' ]; then
-		comando="service3 $1"
+		comando="docker $1"
 	fi
 	
     for opcao in "${opcoes_selecionadas[@]}"; do
@@ -417,7 +417,7 @@ while true; do
 										break
 										;;
 									5)
-										comando=$(service3 stats $(service3 ps | awk '{print $1}' | tail -n+5 | tr '\n' ' ') --no-stream --format "table {{.Name}}\t{{.CPUPerc}}\t{{.MemUsage}}")
+										comando=$(docker stats $(docker ps | awk '{print $1}' | tail -n+5 | tr '\n' ' ') --no-stream --format "table {{.Name}}\t{{.CPUPerc}}\t{{.MemUsage}}")
 										criar_dialogo "Containers ativos"
 										;;
 									
