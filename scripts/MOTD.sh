@@ -27,11 +27,11 @@ MENU="Escolha uma das seguintes opções:"
 OPTIONS=(1 "Sessão padrão"
          2 "Sessão destacada"
          3 "Fechar sessão"
-		 4 "Configurações"
+	 4 "Configurações"
          5 "Arquivos"
          6 "Energia"
          7 "Processos"
-		 8 "Serviços")
+	 8 "Serviços")
 		 
 criar_dialogo() {
    dialog --title "$1" \
