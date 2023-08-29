@@ -18,7 +18,7 @@ function converter_video() {
 	echo "Parando serviços para reduzir a carga da CPU..."
 	cpulimit -e service10-nox -l 50 > /dev/null 2>&1 & disown
 	sudo cpulimit -e service7 -l 40 > /dev/null 2>&1 & disown
-	service3 stop jellyseerr lidarr > /dev/null 2>&1
+	docker stop container1 container2 > /dev/null 2>&1
 	sudo systemctl stop service11.service service12.service service6.service service1.service
 
     if [ -z "$subtitle_index" ]; then
