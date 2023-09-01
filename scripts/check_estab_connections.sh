@@ -9,8 +9,8 @@ do
         sudo systemctl stop service1.service service2.service service3.service service4.service service5.service service6.service
 	curl -s -X POST https://api.telegram.org/bot[XXXX]:[XXXX]/sendMessage -d chat_id=[XXXX] -d text="⛔️ Otimização contextual realizada"
         elif [ -z "$(ss -n -o state established '( sport = :8096 or sport = :8920 or sport = :8200 )' | awk '$4 ~ "8096" || $4 ~ "8920" || $3 >= "1000" && $4 ~ "8200"')" ] && [ -z "$(pgrep -u user -x 'service1|service2|service3|service4|service5|service6' | tr -d '\n')" ]; then
-        bash -c 'sudo systemctl start service1.service service2.service service3.service service4.service service5.service service6.service' &
-	docker start container1 container2 container3 container4
+        docker start container1 container2 container3 container4
+	bash -c 'sudo systemctl start service1.service service2.service service3.service service4.service service5.service service6.service' &
 	curl -s -X POST https://api.telegram.org/bot[XXXX]:[XXXX]/sendMessage -d chat_id=[XXXX] -d text="✅ Serviços restaurados"
     fi
     sleep 100
