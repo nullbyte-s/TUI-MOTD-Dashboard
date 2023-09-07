@@ -486,20 +486,56 @@ while true; do
 							done
 							;;
 						4)
-							base="$HOME/Media/"
-							[ ! -d "$base" ] && base="$HOME/.sym/"
-							browser=$(dialog --stdout --title "Escolha um diretório ou arquivo para conversão" --fselect "$base" $(expr $LINES - 15) $(expr $COLUMNS - 10))
-							if [ -d "$browser" ]; then
-								savepath=$(browser)
-							elif [ -f "$browser" ]; then
-								savepath=$(dirname "$browser")
-							fi
-							screen -dm bash -c "cd \"${savepath}\" && '$HOME/scripts/converter_videos.sh' \"${browser}\""
-							screen -x
-							;;
-						*)
-							echo "Opção inválida"
-							;;
+							exec 3>&1
+							seletor=$(dialog \
+							--title "FFmpeg" \
+							--clear \
+							--cancel-label "Retornar" \
+							--menu "" $HEIGHT $WIDTH 2 \
+							"1" "Converter SSA para SRT" \
+							"2" "Converter vídeos" \
+							2>&1 1<&3)
+							exit_status=$?
+							exec 3>&-
+							case $exit_status in
+								$cancelar )
+									clear
+									break
+									;;
+								$esc )
+									clear
+									exit 1
+									;;
+							esac
+							case $seletor in
+								1)
+									base="$HOME/Media/"
+									[ ! -d "$base" ] && base="$HOME/.sym/"
+									browser=$(dialog --stdout --title "Escolha um diretório ou vídeo para extrair a legenda SSA" --fselect "$base" $(expr $LINES - 15) $(expr $COLUMNS - 10))
+									if [ -d "$browser" ]; then
+										savepath=$(browser)
+									elif [ -f "$browser" ]; then
+										savepath=$(dirname "$browser")
+									fi
+									screen -dm bash -c "cd \"${savepath}\" && '$HOME/scripts/converter_SSA_SRT.sh' \"${browser}\""
+									screen -x
+									;;
+								2)
+									base="$HOME/Media/"
+									[ ! -d "$base" ] && base="$HOME/.sym/"
+									browser=$(dialog --stdout --title "Escolha um diretório ou vídeo para conversão" --fselect "$base" $(expr $LINES - 15) $(expr $COLUMNS - 10))
+									if [ -d "$browser" ]; then
+										savepath=$(browser)
+									elif [ -f "$browser" ]; then
+										savepath=$(dirname "$browser")
+									fi
+									screen -dm bash -c "cd \"${savepath}\" && '$HOME/scripts/converter_videos.sh' \"${browser}\""
+									screen -x
+									;;
+								*)
+									echo "Opção inválida"
+									;;
+							esac
 					esac
 				done
 	;;
